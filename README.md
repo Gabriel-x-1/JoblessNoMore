@@ -3,7 +3,9 @@
 ## Team
 
 Bilciurescu Gabriel Cosmin - gabi2015a1b1@gmail.com
+
 Pica Eduard Ionut - eduard_ionut.pica@stud.fils.upb.ro 
+
 Pasaroiu Mihai Octavian - pasaroiumihai@yahoo.com
 
 ## Description
