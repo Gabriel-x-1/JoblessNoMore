@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Portal</title>
+  <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+<main class="portal-container">
+  <h1>Welcome to JobMatch</h1>
+  <p class="subheading">Choose how you'd like to get started:</p>
+
+  <div class="portal-options">
+    <div class="portal-box">
+      <h2>I'm a Company</h2>
+      <p>Post jobs, manage applications, and find your next hire.</p>
+      <div class="btn-group">
+        <a th:href="@{/company/login}" class="btn">Login</a>
+        <a th:href="@{/company/register}" class="btn outline">Register</a>
+      </div>
+    </div>
+
+    <div class="portal-box">
+      <h2>I'm a Job Seeker</h2>
+      <p>Create your profile and swipe through job opportunities.</p>
+      <div class="btn-group">
+        <a th:href="@{/seeker/login}" class="btn">Login</a>
+        <a th:href="@{/seeker/register}" class="btn outline">Register</a>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard</title>
+  <link rel="stylesheet" th:href="@{/css/user-dashboard.css}" />
+</head>
+<body>
+<main class="dashboard-wrapper">
+  <section class="dashboard">
+    <h2>Applied Jobs</h2>
+
+    <div class="applicant-scroll">
+      <div class="applicant-list">
+        <div class="applicant-card" th:each="job : ${appliedJobs}">
+          <div class="applicant-header">
+            <strong th:text="${job.title}">Frontend Developer</strong>
+            <small th:text="${job.company} + ' — ' + ${job.location}">
+              InnovateX — Berlin, Germany
+            </small>
+          </div>
+          <div class="applicant-body">
+                <span class="badge" th:classappend="${job.status.toLowerCase().replace(' ', '-')}">
+                  <span th:text="${job.status}">Under Review</span>
+                </span>
+            <p><strong>Skills:</strong> <span th:text="${job.skills}">React, TypeScript, CSS</span></p>
+            <p><strong>Job Type:</strong> <span th:text="${job.type}">Full-Time</span></p>
+            <p><strong>Salary:</strong> <span th:text="${job.salary}">€55,000</span></p>
+            <p><strong>Applied:</strong> <span th:text="${job.appliedDate}">April 28, 2025</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

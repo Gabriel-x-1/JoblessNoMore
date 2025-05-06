@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Job Listing</title>
+  <link rel="stylesheet" th:href="@{/css/create-job.css}" />
+</head>
+<body>
+<main class="form-wrapper">
+  <h2>Create New Job Listing</h2>
+  <form class="job-form" method="post" th:action="@{/jobs/create}" th:object="${job}">
+    <div class="form-section">
+      <label>Job Title</label>
+      <input type="text" th:field="*{title}" required />
+
+      <label>Location</label>
+      <input type="text" th:field="*{location}" required />
+
+      <label>Job Type</label>
+      <select th:field="*{type}" required>
+        <option value="">Select job type</option>
+        <option value="Full-Time">Full-Time</option>
+        <option value="Part-Time">Part-Time</option>
+        <option value="Contract">Contract</option>
+        <option value="Internship">Internship</option>
+      </select>
+    </div>
+
+    <div class="form-section">
+      <label>Job Description</label>
+      <textarea th:field="*{description}" rows="4" required></textarea>
+
+      <label>Responsibilities</label>
+      <textarea th:field="*{responsibilities}" rows="3"></textarea>
+
+      <label>Requirements</label>
+      <textarea th:field="*{requirements}" rows="3"></textarea>
+    </div>
+
+    <div class="form-section">
+      <label>Salary Range (optional)</label>
+      <input type="text" th:field="*{salary}" placeholder="e.g. €50,000 – €70,000" />
+
+      <label>Start Date</label>
+      <input type="date" th:field="*{startDate}" />
+    </div>
+
+    <button type="submit" class="submit-btn">Post Job</button>
+  </form>
+</main>
+</body>
+</html>

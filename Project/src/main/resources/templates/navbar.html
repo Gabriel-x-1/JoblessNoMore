@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Navbar</title>
+  <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-logo">JobLessNoMore</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a th:href="@{/}">Home</a></li>
+    <li><a th:href="@{/profile}">Profile</a></li>
+    <li><a th:href="@{/dashboard}">Dashboard</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle">&#9776;</div>
+</nav>
+
+<script th:src="@{/js/navbar.js}"></script>
+</body>
+</html>

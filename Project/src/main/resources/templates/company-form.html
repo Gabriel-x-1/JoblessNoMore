@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Company Profile</title>
+  <link rel="stylesheet" th:href="@{/css/company-form.css}" />
+</head>
+<body>
+<main class="form-wrapper">
+  <h2>Edit Company Profile</h2>
+  <form th:action="@{/company/save}" method="post" class="profile-form" th:object="${company}">
+    <div class="form-section">
+      <label>Company Name</label>
+      <input type="text" th:field="*{companyName}" required />
+
+      <label>Contact Email</label>
+      <input type="email" th:field="*{email}" required />
+
+      <label>Phone Number</label>
+      <input type="tel" th:field="*{phone}" />
+
+      <label>Location</label>
+      <input type="text" th:field="*{location}" />
+    </div>
+
+    <div class="form-section">
+      <label>Industry</label>
+      <input type="text" th:field="*{industry}" />
+
+      <label>Company Size</label>
+      <input type="text" th:field="*{size}" placeholder="e.g. 10–50 employees" />
+
+      <label>Founded</label>
+      <input type="text" th:field="*{founded}" />
+
+      <label>Company Type</label>
+      <select th:field="*{type}">
+        <option value="">Select...</option>
+        <option value="Private">Private</option>
+        <option value="Public">Public</option>
+        <option value="Nonprofit">Nonprofit</option>
+        <option value="Startup">Startup</option>
+      </select>
+    </div>
+
+    <div class="form-section">
+      <label>Website</label>
+      <input type="url" th:field="*{website}" />
+
+      <label>LinkedIn</label>
+      <input type="url" th:field="*{linkedin}" />
+
+      <label>Twitter</label>
+      <input type="url" th:field="*{twitter}" />
+
+      <label>About / Mission</label>
+      <textarea th:field="*{about}" rows="4"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Save Company Profile</button>
+  </form>
+</main>
+</body>
+</html>

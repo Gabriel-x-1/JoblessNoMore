@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Applicants Dashboard</title>
+  <link rel="stylesheet" th:href="@{/css/company-dashboard.css}" />
+</head>
+<body>
+<main class="dashboard-wrapper">
+  <section class="dashboard">
+    <h2>Job Applicants</h2>
+
+    <div class="applicant-scroll">
+      <div class="applicant-list">
+
+        <div class="applicant-card" th:each="applicant : ${applicants}">
+          <div class="applicant-header">
+            <strong th:text="${applicant.name}">Applicant Name</strong>
+            <small th:text="${applicant.role}">Role — Location</small>
+          </div>
+          <div class="applicant-body">
+            <span class="badge" th:classappend="' ' + ${applicant.status.toLowerCase()}"
+                  th:text="${applicant.status}">Status</span>
+            <p><strong>Skills:</strong> <span th:text="${applicant.skills}">Skill list</span></p>
+            <p><strong>Education:</strong> <span th:text="${applicant.education}">Degree</span></p>
+            <p><strong>Contact:</strong> <span th:text="${applicant.email}">Email</span></p>
+            <a th:href="@{'/company/applicant/' + ${applicant.id}}" class="view-link">View Profile</a>
+
+            <div class="action-buttons">
+              <button class="btn approve" th:onclick="'approveApplicant(' + ${applicant.id} + ')'">Approve</button>
+              <button class="btn reject" th:onclick="'rejectApplicant(' + ${applicant.id} + ')'">Reject</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

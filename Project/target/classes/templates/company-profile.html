@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${company.name} + ' - Profile'">Company Profile</title>
+  <link rel="stylesheet" th:href="@{/css/company-profile.css}" />
+</head>
+<body>
+<main class="profile">
+  <section class="profile-header">
+    <div class="profile-image">
+      <img th:src="@{'https://i.pravatar.cc/300?u=' + ${company.name}}" alt="Company Logo" />
+    </div>
+    <div class="profile-info">
+      <div class="info-row">
+        <strong>Company Name:</strong>
+        <span th:text="${company.name}">Acme Inc.</span>
+      </div>
+      <div class="info-row">
+        <strong>Location:</strong>
+        <span th:text="${company.location}">Berlin, Germany</span>
+      </div>
+      <div class="info-row">
+        <strong>Industry:</strong>
+        <span th:text="${company.industry}">Software Development</span>
+      </div>
+      <div class="info-row">
+        <strong>Founded:</strong>
+        <span th:text="${company.founded}">2010</span>
+      </div>
+      <div class="info-row">
+        <strong>Employees:</strong>
+        <span th:text="${company.size}">150</span>
+      </div>
+      <a th:href="@{/company/edit}" class="edit-btn">Edit Profile</a>
+    </div>
+  </section>
+
+  <section class="profile-section">
+    <h3>About</h3>
+    <p th:text="${company.about}">
+      Acme Inc. builds scalable, cloud-based platforms...
+    </p>
+  </section>
+
+  <section class="profile-section">
+    <h3>Online Presence</h3>
+    <p>
+      <strong>Website:</strong>
+      <a th:href="${company.website}" target="_blank" th:text="${company.website}">acme.com</a>
+    </p>
+    <p>
+      <strong>Social:</strong>
+      <a th:href="${company.linkedin}" target="_blank">LinkedIn</a> |
+      <a th:href="${company.twitter}" target="_blank">Twitter</a>
+    </p>
+  </section>
+
+  <section class="profile-section">
+    <h3>Contact</h3>
+    <p>Email: <span th:text="${company.email}">contact@acme.com</span></p>
+    <p>Phone: <span th:text="${company.phone}">+49 123 4567890</span></p>
+  </section>
+
+  <section class="profile-section" th:if="${company.ceo != null or company.cto != null}">
+    <h3>Leadership</h3>
+    <p th:if="${company.ceo != null}"><strong>CEO:</strong> <span th:text="${company.ceo}">Jane Smith</span></p>
+    <p th:if="${company.cto != null}"><strong>CTO:</strong> <span th:text="${company.cto}">Mark Johnson</span></p>
+  </section>
+
+  <section class="profile-section" th:if="${jobs != null}">
+    <h3>Job Listings</h3>
+    <div class="job-listing">
+      <div class="job-entry" th:each="job : ${jobs}">
+        <div class="job-info">
+          <strong th:text="${job.title}">Frontend Developer</strong>
+          <span th:text="${job.type + ' · ' + job.location}">Full-Time · Berlin</span>
+        </div>
+        <div class="job-actions">
+          <a th:href="@{'/jobs/edit/' + ${job.id}}" class="btn edit">Edit</a>
+          <a th:href="@{'/jobs/delete/' + ${job.id}}" class="btn delete">Delete</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

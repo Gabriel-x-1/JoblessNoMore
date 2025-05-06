@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Company Login</title>
+  <link rel="stylesheet" th:href="@{/css/auth.css}" />
+</head>
+<body>
+<main class="auth-wrapper">
+  <h2>Company Login</h2>
+  <div id="form-error" class="form-error" style="display: none"></div>
+  <form class="auth-form" th:action="@{/company/login}" method="post">
+    <label>Email</label>
+    <input type="email" name="email" required />
+
+    <label>Password</label>
+    <input type="password" name="password" required />
+
+    <button type="submit" class="auth-btn">Login</button>
+    <p class="link">
+      Don’t have a company account?
+      <a th:href="@{/company/register}">Register</a>
+    </p>
+  </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Login</title>
+  <link rel="stylesheet" th:href="@{/css/auth.css}" />
+</head>
+<body>
+<main class="auth-wrapper">
+  <h2>Login to Your Account</h2>
+  <form class="auth-form" th:action="@{/user/login}" method="post">
+    <label>Email</label>
+    <input type="email" name="email" required />
+
+    <label>Password</label>
+    <input type="password" name="password" required />
+
+    <button type="submit" class="auth-btn">Login</button>
+    <p class="link">
+      Don’t have an account? <a th:href="@{/user/register}">Register</a>
+    </p>
+  </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Registration</title>
+  <link rel="stylesheet" th:href="@{/css/auth.css}" />
+  <script th:src="@{/js/auth-validation.js}" defer></script>
+</head>
+<body>
+<main class="auth-wrapper">
+  <h2>Create Your Account</h2>
+  <div id="form-error" class="form-error" style="display: none"></div>
+  <form class="auth-form" th:action="@{/user/register}" method="post">
+    <label>Full Name</label>
+    <input type="text" name="name" required />
+
+    <label>Email</label>
+    <input type="email" name="email" required />
+
+    <label>Password</label>
+    <input type="password" name="password" required />
+
+    <label>Confirm Password</label>
+    <input type="password" name="confirm_password" required />
+
+    <button type="submit" class="auth-btn">Register</button>
+    <p class="link">
+      Already have an account?
+      <a th:href="@{/user/login}">Login</a>
+    </p>
+  </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Profile</title>
+  <link rel="stylesheet" th:href="@{/css/user-form.css}" />
+</head>
+<body>
+<main class="form-wrapper">
+  <h2>Edit Your Profile</h2>
+  <form th:action="@{/profile/save}" method="post" th:object="${user}" class="profile-form">
+    <div class="form-section">
+      <label>Full Name</label>
+      <input type="text" th:field="*{name}" required />
+
+      <label>Email</label>
+      <input type="email" th:field="*{email}" required />
+
+      <label>Phone</label>
+      <input type="tel" th:field="*{phone}" required />
+
+      <label>Location</label>
+      <input type="text" th:field="*{location}" />
+    </div>
+
+    <div class="form-section">
+      <label>Last Job Title</label>
+      <input type="text" th:field="*{lastJob}" />
+
+      <label>Skills (comma-separated)</label>
+      <input type="text" th:field="*{skills}" />
+
+      <label>Education</label>
+      <input type="text" th:field="*{education}" />
+
+      <label>Experience Summary</label>
+      <textarea th:field="*{experience}" rows="4"></textarea>
+    </div>
+
+    <div class="form-section">
+      <label>LinkedIn or Portfolio</label>
+      <input type="url" th:field="*{portfolio}" />
+
+      <label>About You</label>
+      <textarea th:field="*{about}" rows="4"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Save Profile</button>
+  </form>
+</main>
+</body>
+</html>

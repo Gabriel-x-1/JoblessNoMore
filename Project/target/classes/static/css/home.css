@@ -1,0 +1,169 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.container::before,
+.container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.container::before {
+  background: linear-gradient(to right, rgba(231, 77, 60, 0.5), transparent 60%);
+}
+
+.container::after {
+  background: linear-gradient(to left, rgba(46, 204, 112, 0.5), transparent 60%);
+}
+
+.container.swipe-left::before {
+  opacity: 1;
+}
+
+.container.swipe-right::after {
+  opacity: 1;
+}
+
+.card-stack {
+  position: relative;
+  width: 90vw;
+  max-width: 450px;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 12px;
+  padding: 5vw;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+  transition: transform 0.1s ease;
+  box-sizing: border-box;
+}
+
+.card.shadow {
+  background: #dcdcdc;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
+
+.job-header h2 {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 0.2em;
+}
+
+.job-header .company {
+  font-size: 1em;
+  color: #666;
+  margin-bottom: 1em;
+}
+
+.job-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85em;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.description {
+  flex: 1;
+  background: #f6f8fa;
+  padding: 1em;
+  border-radius: 8px;
+  font-size: 0.95em;
+  overflow-y: auto;
+  margin-bottom: 1em;
+}
+
+.description ul {
+  padding-left: 20px;
+  margin: 0.5em 0 1em;
+}
+
+.description li {
+  margin-bottom: 0.4em;
+  line-height: 1.4;
+}
+
+.no-more-cards {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  text-align: center;
+  color: #666;
+  font-size: 1.1rem;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 500px) {
+  .card {
+    padding: 20px;
+  }
+
+  .job-header h2 {
+    font-size: 1.3em;
+  }
+
+  .description {
+    font-size: 0.9em;
+  }
+
+  .job-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
