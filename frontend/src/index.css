@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+.swipe-out-left {
+  transform: translateX(-150%) rotate(-30deg) !important;
+}
+.swipe-out-right {
+  transform: translateX(150%) rotate(30deg) !important;
+}
+.glow-left {
+  box-shadow: -10px 0 40px rgba(255, 80, 80, 0.5);
+}
+
+.glow-right {
+  box-shadow: 10px 0 40px rgba(255, 255, 0, 0.4);
+}
