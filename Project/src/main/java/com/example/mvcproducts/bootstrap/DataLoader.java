@@ -20,9 +20,9 @@ public class DataLoader implements CommandLineRunner {
   public void run(String... args) throws Exception {
 
     PasswordEncoder bcrypt = new BCryptPasswordEncoder();
-    User user1=new User("user1",bcrypt.encode("user1"));
+    User user1=new User("user1",bcrypt.encode("user1"),"user@gmail.com", "user");
     user1.getRoles().add(Role.ROLE_USER);
-    User user2=new User("user2",bcrypt.encode("user2"));
+    User user2=new User("user2",bcrypt.encode("user2"), "admin@gmail.com", "admin");
     user2.getRoles().add(Role.ROLE_ADMIN);
     userService.save(user1);
     userService.save(user2);

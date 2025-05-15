@@ -5,10 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Entity
@@ -20,13 +17,18 @@ public class User implements UserDetails {
 
   private String username;
   private String password;
+  private String email;
+  private String role;
+
   // instead of @OneToMany when having collection of basic types or enums
   @ElementCollection(fetch = FetchType.EAGER)
   private List<Role> roles=new ArrayList<>();
 
-  public User(String username, String password) {
+  public User(String username, String password, String email, String role) {
     this.username = username;
     this.password = password;
+    this.email = email;
+    this.role = role;
   }
 
   @Override
@@ -81,7 +83,7 @@ public class User implements UserDetails {
 
   @Override
   public String getUsername() {
-    return username;
+      return username;
   }
 
   public void setUsername(String username) {
@@ -105,6 +107,10 @@ public class User implements UserDetails {
     this.roles = roles;
   }
 
+  public void setRole(String role) {
+    this.role = role;
+  }
+
   public User(Long id, String username, String password, List<Role> roles) {
     this.id = id;
     this.username = username;
@@ -113,5 +119,9 @@ public class User implements UserDetails {
   }
 
   public User() {
+  }
+
+  public void setEmail(Optional<Object> email) {
+    this.email = (String) email.orElse(null);
   }
 }
