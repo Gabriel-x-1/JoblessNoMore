@@ -5,9 +5,6 @@ import com.example.mvcproducts.dto.RegisterRequest;
 import com.example.mvcproducts.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -21,15 +18,16 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User register(RegisterRequest request) {
-    // Check if email already exists
-    if (userRepository.findByEmail(String.valueOf((request.getEmail()).isPresent()))) {
-      throw new RuntimeException("Email is already registered.");
+    if (!request.getPassword().equals(request.getConfirm())) {
+      throw new RuntimeException("Passwords do not match");
     }
 
-    // Optional: confirm password match validation here
+    if (userRepository.existsByEmail(request.getEmail())) {
+      throw new RuntimeException("Email already registered");
+    }
 
     User user = new User();
-    user.setUsername(request.getUsername());
+    user.setUsername(request.getName());
     user.setEmail(request.getEmail());
     user.setPassword(passwordEncoder.encode(request.getPassword()));
     user.setRole(request.getRole());

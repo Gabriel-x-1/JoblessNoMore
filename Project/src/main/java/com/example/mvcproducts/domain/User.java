@@ -7,12 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
-
 @Entity
+@Table(name = "users")
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String username;
@@ -20,9 +20,12 @@ public class User implements UserDetails {
   private String email;
   private String role;
 
-  // instead of @OneToMany when having collection of basic types or enums
   @ElementCollection(fetch = FetchType.EAGER)
-  private List<Role> roles=new ArrayList<>();
+  @CollectionTable(name = "user_roles", 
+                   joinColumns = @JoinColumn(name = "user_id"))
+  @Enumerated(EnumType.STRING)
+  @Column(name = "roles")
+  private Set<Role> roles = new HashSet<>();
 
   public User(String username, String password, String email, String role) {
     this.username = username;
@@ -35,10 +38,9 @@ public class User implements UserDetails {
   public Collection<? extends GrantedAuthority> getAuthorities() {
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     for(Role role : roles)
-      authorities.add(new SimpleGrantedAuthority(role.toString()));
+      authorities.add(new SimpleGrantedAuthority(role.name()));
     return authorities;
   }
-
 
   @Override
   public boolean isAccountNonExpired() {
@@ -99,11 +101,11 @@ public class User implements UserDetails {
     this.password = password;
   }
 
-  public List<Role> getRoles() {
+  public Set<Role> getRoles() {
     return roles;
   }
 
-  public void setRoles(List<Role> roles) {
+  public void setRoles(Set<Role> roles) {
     this.roles = roles;
   }
 
@@ -111,7 +113,7 @@ public class User implements UserDetails {
     this.role = role;
   }
 
-  public User(Long id, String username, String password, List<Role> roles) {
+  public User(Long id, String username, String password, Set<Role> roles) {
     this.id = id;
     this.username = username;
     this.password = password;
@@ -121,7 +123,15 @@ public class User implements UserDetails {
   public User() {
   }
 
-  public void setEmail(Optional<Object> email) {
-    this.email = (String) email.orElse(null);
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getRole() {
+    return role;
   }
 }
