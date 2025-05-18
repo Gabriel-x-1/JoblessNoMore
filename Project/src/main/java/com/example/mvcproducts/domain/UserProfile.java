@@ -1,18 +1,43 @@
 package com.example.mvcproducts.domain;
 
+import jakarta.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "user_profiles")
 public class UserProfile {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private String name;
     private String email;
     private String phone;
     private String lastJob;
     private String location;
+    
+    @Column(columnDefinition = "TEXT")
     private String about;
+    
+    @ElementCollection
+    @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "profile_id"))
+    @Column(name = "skill")
     private List<String> skills;
+    
+    @ElementCollection
+    @CollectionTable(name = "user_education", joinColumns = @JoinColumn(name = "profile_id"))
+    @Column(name = "education")
     private List<String> education;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "profile_id")
     private List<Experience> experience;
+
+    @Embedded
     private SocialLinks social;
 
     public UserProfile(){}
@@ -26,6 +51,22 @@ public class UserProfile {
         this.about = about;
         this.experience = experience;
         this.social = social;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getName() {
