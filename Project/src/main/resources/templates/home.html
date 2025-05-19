@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Swipe Card Template</title>
     <link rel="stylesheet" th:href="@{/css/home.css}" />
 </head>
@@ -13,7 +15,8 @@
         <div
                 class="card"
                 th:each="job, iterStat : ${jobs}"
-                th:attr="id=${iterStat.index == 0 ? 'swipe-card' : (iterStat.index == 1 ? 'second-card' : null)}"
+                th:attr="id=${iterStat.index == 0 ? 'swipe-card' : (iterStat.index == 1 ? 'second-card' : null)},
+                        data-job-id=${job.id}"
         >
             <div class="job-header">
                 <h2 th:text="${job.title}">Job Title</h2>
@@ -48,6 +51,14 @@
                 <b>Type:</b> <span th:text="${job.type}">Type</span><br />
                 <b>Salary:</b> <span th:text="${job.salary}">Salary</span><br />
                 <b>Start Date:</b> <span th:text="${job.startDate}">Start Date</span>
+            </div>
+            <div class="job-actions">
+                <button class="action-btn deny" th:data-job-id="${job.id}">
+                    <span>✕</span>
+                </button>
+                <button class="action-btn apply" th:data-job-id="${job.id}">
+                    <span>✓</span>
+                </button>
             </div>
         </div>
     </div>

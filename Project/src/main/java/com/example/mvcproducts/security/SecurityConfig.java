@@ -36,10 +36,10 @@ public class SecurityConfig {
                     .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/company/login")
+                .loginPage("/seeker/login")
                 .loginProcessingUrl("/auth/login")
-                .defaultSuccessUrl("/company/dashboard", true)
-                .failureUrl("/company/login?error")
+                .successHandler(authenticationSuccessHandler())
+                .failureUrl("/seeker/login?error")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .permitAll()

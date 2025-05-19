@@ -35,4 +35,10 @@ public class CompanyController {
         userService.register(request);
         return "redirect:/company/login?registered";
     }
+
+    @GetMapping("/dashboard")
+    public String dashboard(Model model) {
+        // Add any necessary model attributes for the company dashboard
+        return "company-dashboard";
+    }
 }
