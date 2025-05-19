@@ -83,7 +83,7 @@ public class User implements UserDetails {
 
   @Override
   public String getUsername() {
-      return username;
+      return email; // Use email as username for Spring Security
   }
 
   public void setUsername(String username) {
@@ -121,7 +121,11 @@ public class User implements UserDetails {
   public User() {
   }
 
-  public void setEmail(Optional<Object> email) {
-    this.email = (String) email.orElse(null);
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getEmail() {
+    return email;
   }
 }

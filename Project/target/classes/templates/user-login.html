@@ -9,16 +9,25 @@
 <body>
 <main class="auth-wrapper">
   <h2>Login to Your Account</h2>
-  <form class="auth-form" th:action="@{/user/login}" method="post">
+  <form class="auth-form" th:action="@{/auth/login}" method="post">
+    <div th:if="${param.error}" class="form-error">
+      Invalid email or password
+    </div>
+    <div th:if="${param.logout}" class="form-success">
+      You have been logged out successfully
+    </div>
+
     <label>Email</label>
-    <input type="email" name="email" required />
+    <input type="email" name="email" required /> <!-- Changed from username to email -->
 
     <label>Password</label>
     <input type="password" name="password" required />
 
+    <input type="hidden" name="role" value="USER" />
+    
     <button type="submit" class="auth-btn">Login</button>
     <p class="link">
-      Don’t have an account? <a th:href="@{/user/register}">Register</a>
+      Don't have an account? <a th:href="@{/seeker/register}">Register</a>
     </p>
   </form>
 </main>

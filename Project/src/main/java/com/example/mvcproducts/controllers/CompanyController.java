@@ -4,34 +4,35 @@ import com.example.mvcproducts.dto.RegisterRequest;
 import com.example.mvcproducts.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/seeker")
-public class UserController {
+@RequestMapping("/company")
+public class CompanyController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public CompanyController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/login")
     public String loginPage() {
-        return "user-login";
+        return "company-login";
     }
 
     @GetMapping("/register")
     public String registerPage(Model model) {
-        model.addAttribute("registerRequest", new RegisterRequest());
-        return "user-register";
+        RegisterRequest request = new RegisterRequest();
+        request.setRole("COMPANY");
+        model.addAttribute("registerRequest", request);
+        return "company-register";
     }
 
     @PostMapping("/register")
-    public String registerUser(RegisterRequest request) {
+    public String registerCompany(RegisterRequest request) {
+        request.setRole("COMPANY");
         userService.register(request);
-        return "redirect:/seeker/login?registered";
+        return "redirect:/company/login?registered";
     }
 }

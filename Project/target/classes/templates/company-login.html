@@ -10,12 +10,21 @@
 <main class="auth-wrapper">
   <h2>Company Login</h2>
   <div id="form-error" class="form-error" style="display: none"></div>
-  <form class="auth-form" th:action="@{/company/login}" method="post">
+  <form class="auth-form" th:action="@{/auth/login}" method="post">
+    <div th:if="${param.error}" class="form-error">
+      Invalid email or password
+    </div>
+    <div th:if="${param.logout}" class="form-success">
+      You have been logged out successfully
+    </div>
+
     <label>Email</label>
     <input type="email" name="email" required />
 
     <label>Password</label>
     <input type="password" name="password" required />
+
+    <input type="hidden" name="role" value="COMPANY" />
 
     <button type="submit" class="auth-btn">Login</button>
     <p class="link">

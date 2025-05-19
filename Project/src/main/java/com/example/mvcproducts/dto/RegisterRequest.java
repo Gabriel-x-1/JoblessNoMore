@@ -7,10 +7,10 @@ public class RegisterRequest {
     private String email;
     private String password;
     private String confirm;
-    private String role;
+    private String role = "USER"; // Default value
 
-    public Optional<Object> getEmail() {
-        return Optional.ofNullable(email);
+    public String getEmail() {
+        return email;
     }
 
     public String getUsername() {
@@ -42,7 +42,7 @@ public class RegisterRequest {
     }
 
     public String getRole() {
-        return role;
+        return role != null ? role : "USER";
     }
 
     public void setRole(String role) {

@@ -11,18 +11,20 @@
 <main class="auth-wrapper">
   <h2>Create Your Account</h2>
   <div id="form-error" class="form-error" style="display: none"></div>
-  <form class="auth-form" th:action="@{/user/register}" method="post">
+  <form class="auth-form" th:action="@{/seeker/register}" method="post" th:object="${registerRequest}">
     <label>Full Name</label>
-    <input type="text" name="name" required />
+    <input type="text" th:field="*{username}" required />
 
     <label>Email</label>
-    <input type="email" name="email" required />
+    <input type="email" th:field="*{email}" required />
 
     <label>Password</label>
-    <input type="password" name="password" required />
+    <input type="password" th:field="*{password}" required minlength="6" />
 
     <label>Confirm Password</label>
-    <input type="password" name="confirm_password" required />
+    <input type="password" th:field="*{confirm}" required />
+
+    <input type="hidden" th:field="*{role}" value="USER" />
 
     <button type="submit" class="auth-btn">Register</button>
     <p class="link">

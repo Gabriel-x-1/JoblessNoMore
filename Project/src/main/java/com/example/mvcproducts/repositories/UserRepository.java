@@ -4,7 +4,7 @@ import com.example.mvcproducts.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User,Long> {
-  User findByUsername(String username);
-
-  boolean findByEmail(String email);
+    User findByUsername(String username);
+    User findByEmail(String email);
+    boolean existsByEmail(String email);
 }

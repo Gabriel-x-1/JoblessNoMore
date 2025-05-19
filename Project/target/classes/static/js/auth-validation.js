@@ -17,11 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .join(" ");
     }
 
-    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
-    if (!emailRegex.test(emailInput.value.trim())) {
-      errors.push("Please enter a valid email address.");
-    }
-
+  
     if (confirmInput && passwordInput.value !== confirmInput.value) {
       errors.push("Passwords do not match.");
     }
