@@ -1,18 +1,22 @@
 package com.example.mvcproducts.services;
 
 import com.example.mvcproducts.domain.UserJobInteraction;
+import com.example.mvcproducts.domain.Job;
 import com.example.mvcproducts.repositories.UserJobInteractionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class UserJobInteractionService {
     private final UserJobInteractionRepository interactionRepository;
+    private final JobService jobService;
 
-    public UserJobInteractionService(UserJobInteractionRepository interactionRepository) {
+    public UserJobInteractionService(UserJobInteractionRepository interactionRepository, JobService jobService) {
         this.interactionRepository = interactionRepository;
+        this.jobService = jobService;
     }
 
     public void saveInteraction(String userId, String jobId, String interactionType) {
@@ -25,5 +29,15 @@ public class UserJobInteractionService {
                 .stream()
                 .map(UserJobInteraction::getJobId)
                 .collect(Collectors.toList());
+    }
+
+    public List<Job> getAppliedJobsWithDetails(String userId) {
+        List<UserJobInteraction> interactions = interactionRepository
+            .findByUserIdAndInteractionType(userId, "APPLIED");
+        
+        return interactions.stream()
+            .map(interaction -> jobService.getJobById(interaction.getJobId()))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
     }
 }

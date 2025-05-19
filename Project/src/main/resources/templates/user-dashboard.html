@@ -13,21 +13,23 @@
 
     <div class="applicant-scroll">
       <div class="applicant-list">
+        <div th:if="${#lists.isEmpty(appliedJobs)}" class="no-jobs">
+          <p>You haven't applied to any jobs yet.</p>
+        </div>
+        
         <div class="applicant-card" th:each="job : ${appliedJobs}">
           <div class="applicant-header">
-            <strong th:text="${job.title}">Frontend Developer</strong>
+            <strong th:text="${job.title}">Job Title</strong>
             <small th:text="${job.company} + ' — ' + ${job.location}">
-              InnovateX — Berlin, Germany
+              Company — Location
             </small>
           </div>
           <div class="applicant-body">
-                <span class="badge" th:classappend="${job.status.toLowerCase().replace(' ', '-')}">
-                  <span th:text="${job.status}">Under Review</span>
-                </span>
-            <p><strong>Skills:</strong> <span th:text="${job.skills}">React, TypeScript, CSS</span></p>
-            <p><strong>Job Type:</strong> <span th:text="${job.type}">Full-Time</span></p>
-            <p><strong>Salary:</strong> <span th:text="${job.salary}">€55,000</span></p>
-            <p><strong>Applied:</strong> <span th:text="${job.appliedDate}">April 28, 2025</span></p>
+            <span class="badge" th:text="${job.status}">Status</span>
+            <p><strong>Type:</strong> <span th:text="${job.type}">Job Type</span></p>
+            <p><strong>Salary:</strong> <span th:text="${job.salary}">Salary Range</span></p>
+            <p><strong>Description:</strong> <span th:text="${job.description}">Job Description</span></p>
+            <p><strong>Start Date:</strong> <span th:text="${job.startDate}">Start Date</span></p>
           </div>
         </div>
       </div>
