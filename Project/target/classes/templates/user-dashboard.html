@@ -1,40 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User Dashboard</title>
-  <link rel="stylesheet" th:href="@{/css/user-dashboard.css}" />
-</head>
-<body>
-<main class="dashboard-wrapper">
-  <section class="dashboard">
-    <h2>Applied Jobs</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/user-dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+  </head>
+  <body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <main class="dashboard-wrapper" style="margin-top: 20px;">
+      <section class="dashboard">
+        <h2>Applied Jobs</h2>
 
-    <div class="applicant-scroll">
-      <div class="applicant-list">
-        <div th:if="${#lists.isEmpty(appliedJobs)}" class="no-jobs">
-          <p>You haven't applied to any jobs yet.</p>
-        </div>
-        
-        <div class="applicant-card" th:each="job : ${appliedJobs}">
-          <div class="applicant-header">
-            <strong th:text="${job.title}">Job Title</strong>
-            <small th:text="${job.company} + ' — ' + ${job.location}">
-              Company — Location
-            </small>
+        <div class="applicant-scroll">
+          <div class="applicant-list">
+            <div th:if="${#lists.isEmpty(appliedJobs)}" class="no-jobs">
+              <p>You haven't applied to any jobs yet.</p>
+            </div>
+
+            <div class="applicant-card" th:each="job : ${appliedJobs}">
+              <div class="applicant-header">
+                <strong th:text="${job.title}">Job Title</strong>
+                <small th:text="${job.company} + ' — ' + ${job.location}">
+                  Company — Location
+                </small>
+              </div>
+              <div class="applicant-body">
+                <span
+                  class="badge"
+                  th:classappend="${
+                    job.status == 'APPROVED' ? 'approved' : 
+                    job.status == 'REJECTED' ? 'rejected' : 
+                    'pending'
+                  }"
+                  th:text="${job.status}"
+                  >Status</span
+                >
+                <p>
+                  <strong>Type:</strong>
+                  <span th:text="${job.type}">Job Type</span>
+                </p>
+                <p>
+                  <strong>Salary:</strong>
+                  <span th:text="${job.salary}">Salary Range</span>
+                </p>
+                <p>
+                  <strong>Description:</strong>
+                  <span th:text="${job.description}">Job Description</span>
+                </p>
+                <!-- Remove or comment out the startDate line if not needed -->
+                <!-- <p><strong>Start Date:</strong> <span th:text="${job.startDate}">Start Date</span></p> -->
+              </div>
+            </div>
           </div>
-          <div class="applicant-body">
-            <span class="badge" th:text="${job.status}">Status</span>
-            <p><strong>Type:</strong> <span th:text="${job.type}">Job Type</span></p>
-            <p><strong>Salary:</strong> <span th:text="${job.salary}">Salary Range</span></p>
-            <p><strong>Description:</strong> <span th:text="${job.description}">Job Description</span></p>
-            <p><strong>Start Date:</strong> <span th:text="${job.startDate}">Start Date</span></p>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
-</main>
-</body>
+      </section>
+    </main>
+  </body>
 </html>

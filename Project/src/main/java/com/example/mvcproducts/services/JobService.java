@@ -9,4 +9,5 @@ public interface JobService {
     Job saveJob(Job job);
     void deleteJob(String id);
     List<Job> getJobsByCompany(String company);
+    Job saveJob(Job job, String companyEmail); // Add this new method
 }

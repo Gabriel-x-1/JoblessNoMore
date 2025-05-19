@@ -1,73 +1,81 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title>Swipe Card Template</title>
     <link rel="stylesheet" th:href="@{/css/home.css}" />
-</head>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+  </head>
 
-<body>
-<div class="container">
-    <div class="card-stack">
+  <body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div class="container">
+      <div class="card-stack">
         <div
-                class="card"
-                th:each="job, iterStat : ${jobs}"
-                th:attr="id=${iterStat.index == 0 ? 'swipe-card' : (iterStat.index == 1 ? 'second-card' : null)},
+          class="card"
+          th:each="job, iterStat : ${jobs}"
+          th:attr="id=${iterStat.index == 0 ? 'swipe-card' : (iterStat.index == 1 ? 'second-card' : null)},
                         data-job-id=${job.id}"
         >
-            <div class="job-header">
-                <h2 th:text="${job.title}">Job Title</h2>
-                <p class="company" th:text="${job.company}">Company Name</p>
-                <div class="job-meta">
+          <div class="job-header">
+            <h2 th:text="${job.title}">Job Title</h2>
+            <p class="company" th:text="${job.company}">Company Name</p>
+            <div class="job-meta">
               <span class="meta">
                 <b>📍</b>
                 <span th:text="${job.location}">Location</span>
               </span>
-                    <span class="meta">
+              <span class="meta">
                 <b>💼</b>
                 <span th:text="${job.type}">Type</span>
               </span>
-                </div>
             </div>
-            <div class="description">
-                <strong>About the Role:</strong><br />
-                <p th:text="${job.description}">Job description here.</p>
+          </div>
+          <div class="description">
+            <strong>About the Role:</strong><br />
+            <p th:text="${job.description}">Job description here.</p>
 
-                <br /><strong>Key Responsibilities:</strong>
-                <ul>
-                    <li th:each="resp : ${job.responsibilities}" th:text="${resp}">Responsibility</li>
-                </ul>
+            <br /><strong>Key Responsibilities:</strong>
+            <ul>
+              <li th:each="resp : ${job.responsibilities}" th:text="${resp}">
+                Responsibility
+              </li>
+            </ul>
 
-                <strong>Requirements:</strong>
-                <ul>
-                    <li th:each="req : ${job.requirements}" th:text="${req}">Requirement</li>
-                </ul>
+            <strong>Requirements:</strong>
+            <ul>
+              <li th:each="req : ${job.requirements}" th:text="${req}">
+                Requirement
+              </li>
+            </ul>
 
-                <strong>Details:</strong><br />
-                <b>Location:</b> <span th:text="${job.location}">Location</span><br />
-                <b>Type:</b> <span th:text="${job.type}">Type</span><br />
-                <b>Salary:</b> <span th:text="${job.salary}">Salary</span><br />
-                <b>Start Date:</b> <span th:text="${job.startDate}">Start Date</span>
-            </div>
-            <div class="job-actions">
-                <button class="action-btn deny" th:data-job-id="${job.id}">
-                    <span>✕</span>
-                </button>
-                <button class="action-btn apply" th:data-job-id="${job.id}">
-                    <span>✓</span>
-                </button>
-            </div>
+            <strong>Details:</strong><br />
+            <b>Location:</b> <span th:text="${job.location}">Location</span
+            ><br />
+            <b>Type:</b> <span th:text="${job.type}">Type</span><br />
+            <b>Salary:</b> <span th:text="${job.salary}">Salary</span><br />
+            <b>Start Date:</b>
+            <span th:text="${job.startDate}">Start Date</span>
+          </div>
+          <div class="job-actions">
+            <button class="action-btn deny" th:data-job-id="${job.id}">
+              <span>✕</span>
+            </button>
+            <button class="action-btn apply" th:data-job-id="${job.id}">
+              <span>✓</span>
+            </button>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <div class="no-more-cards" th:if="${#lists.isEmpty(jobs)}">
+      <div class="no-more-cards" th:if="${#lists.isEmpty(jobs)}">
         <h3>No more jobs to show</h3>
         <p>Come back later to explore more opportunities.</p>
+      </div>
     </div>
-</div>
-<script th:src="@{/js/home.js}"></script>
-</body>
+    <script th:src="@{/js/home.js}"></script>
+  </body>
 </html>

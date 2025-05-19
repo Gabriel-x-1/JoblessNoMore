@@ -20,6 +20,9 @@ public class UserJobInteraction {
     @Column(nullable = false)
     private long timestamp;
 
+    @Column(nullable = false)
+    private String status = "PENDING";
+
     // Required by JPA
     protected UserJobInteraction() {}
 
@@ -49,5 +52,13 @@ public class UserJobInteraction {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

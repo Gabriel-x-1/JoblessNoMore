@@ -29,11 +29,15 @@ public class Job {
     private LocalDate startDate;
     private String status;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_user_id", nullable = false)
+    private User companyUser;
+
     public Job() {}
 
     public Job(String title, String company, String location, String type, 
                String salary, String description, List<String> responsibilities, 
-               List<String> requirements, LocalDate startDate) {
+               List<String> requirements, LocalDate startDate, User companyUser) {
         this.id = java.util.UUID.randomUUID().toString();
         this.title = title;
         this.company = company;
@@ -45,6 +49,7 @@ public class Job {
         this.requirements = requirements;
         this.startDate = startDate;
         this.status = "Active";
+        this.companyUser = companyUser;
     }
 
     public String getId() {
@@ -133,5 +138,13 @@ public class Job {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public User getCompanyUser() {
+        return companyUser;
+    }
+
+    public void setCompanyUser(User companyUser) {
+        this.companyUser = companyUser;
     }
 }

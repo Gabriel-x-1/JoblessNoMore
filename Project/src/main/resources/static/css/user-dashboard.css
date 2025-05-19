@@ -5,10 +5,11 @@
 }
 
 body {
+    margin: 0;
+    padding: 0;
     font-family: 'Inter', sans-serif;
     background: #f5f7fa;
     color: #2c3e50;
-    padding: 40px 20px;
 }
 
 .dashboard-wrapper {
@@ -92,12 +93,11 @@ body {
 
 .badge {
     display: inline-block;
-    padding: 4px 10px;
-    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
     font-weight: 600;
-    border-radius: 20px;
-    margin-bottom: 8px;
-    width: fit-content;
+    margin-bottom: 12px;
 }
 
 .badge.pending {
@@ -111,13 +111,23 @@ body {
 }
 
 .badge.rejected {
-    background-color: #f9eaea;
-    color: #c0392b;
+    background-color: #fdecea;
+    color: #e74c3c;
 }
 
 .badge.shortlisted {
     background-color: #e8f9f1;
     color: #27ae60;
+}
+
+.badge.approved {
+    background-color: #e8f9f1;
+    color: #27ae60;
+}
+
+.badge.pending {
+    background-color: #f7f9fa;
+    color: #7f8c8d;
 }
 
 @media (max-width: 600px) {
