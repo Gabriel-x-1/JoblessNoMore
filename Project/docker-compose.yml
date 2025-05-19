@@ -1,0 +1,50 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+      - MARIADB_DATABASE=project
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - spring-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MARIADB_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/project
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    volumes:
+      - ./src:/app/src
+      - ./target:/app/target
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - spring-network
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  spring-network:
+    driver: bridge
+
+volumes:
+  mariadb-data:
