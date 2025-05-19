@@ -1,7 +1,10 @@
 package com.example.mvcproducts.services.impl;
 
 import com.example.mvcproducts.domain.Job;
+import com.example.mvcproducts.domain.Role;
+import com.example.mvcproducts.domain.User;
 import com.example.mvcproducts.repositories.JobRepository;
+import com.example.mvcproducts.repositories.UserRepository;
 import com.example.mvcproducts.services.JobService;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +13,11 @@ import java.util.List;
 @Service
 public class JobServiceImpl implements JobService {
     private final JobRepository jobRepository;
+    private final UserRepository userRepository;
 
-    public JobServiceImpl(JobRepository jobRepository) {
+    public JobServiceImpl(JobRepository jobRepository, UserRepository userRepository) {
         this.jobRepository = jobRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -26,7 +31,20 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    public Job saveJob(Job job, String companyEmail) {
+        User company = userRepository.findByEmail(companyEmail);
+        if (company == null || !company.getRoles().contains(Role.ROLE_COMPANY)) {
+            throw new IllegalArgumentException("Invalid company user");
+        }
+        job.setCompanyUser(company);
+        return jobRepository.save(job);
+    }
+
+    @Override
     public Job saveJob(Job job) {
+        if (job.getCompanyUser() == null) {
+            throw new IllegalArgumentException("Job must have an associated company");
+        }
         return jobRepository.save(job);
     }
 

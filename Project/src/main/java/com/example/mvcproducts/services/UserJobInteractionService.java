@@ -40,4 +40,23 @@ public class UserJobInteractionService {
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
     }
+
+    public List<UserJobInteraction> findByJobIdAndInteractionType(String jobId, String interactionType) {
+        return interactionRepository.findByJobIdAndInteractionType(jobId, interactionType);
+    }
+
+    public void updateApplicationStatus(String jobId, String userId, String status) {
+        List<UserJobInteraction> applications = interactionRepository
+            .findByJobIdAndUserIdAndInteractionType(jobId, userId, "APPLIED");
+            
+        if (!applications.isEmpty()) {
+            UserJobInteraction application = applications.get(0);
+            application.setStatus(status);
+            interactionRepository.save(application);
+        }
+    }
+
+    public List<UserJobInteraction> findByUserIdAndInteractionType(String userId, String interactionType) {
+        return interactionRepository.findByUserIdAndInteractionType(userId, interactionType);
+    }
 }

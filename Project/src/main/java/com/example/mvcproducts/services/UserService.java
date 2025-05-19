@@ -7,4 +7,5 @@ import com.example.mvcproducts.dto.RegisterRequest;
 public interface UserService {
   void save(User user);
   User register(RegisterRequest request);
+  User findByEmail(String email);  // Add this method
 }

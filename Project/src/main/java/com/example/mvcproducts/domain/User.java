@@ -24,6 +24,9 @@ public class User implements UserDetails {
   @ElementCollection(fetch = FetchType.EAGER)
   private List<Role> roles=new ArrayList<>();
 
+  @OneToMany(mappedBy = "companyUser", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Job> jobs = new ArrayList<>();
+
   public User(String username, String password, String email, String role) {
     this.username = username;
     this.password = password;
@@ -111,6 +114,10 @@ public class User implements UserDetails {
     this.role = role;
   }
 
+  public String getRole() {
+    return role;
+  }
+
   public User(Long id, String username, String password, List<Role> roles) {
     this.id = id;
     this.username = username;
@@ -127,5 +134,23 @@ public class User implements UserDetails {
 
   public String getEmail() {
     return email;
+  }
+
+  public List<Job> getJobs() {
+    return jobs;
+  }
+
+  public void setJobs(List<Job> jobs) {
+    this.jobs = jobs;
+  }
+
+  public void addJob(Job job) {
+    jobs.add(job);
+    job.setCompanyUser(this);
+  }
+
+  public void removeJob(Job job) {
+    jobs.remove(job);
+    job.setCompanyUser(null);
   }
 }

@@ -1,42 +1,101 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Job Applicants Dashboard</title>
-  <link rel="stylesheet" th:href="@{/css/company-dashboard.css}" />
-</head>
-<body>
-<main class="dashboard-wrapper">
-  <section class="dashboard">
-    <h2>Job Applicants</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Company Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/company-dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+  </head>
+  <body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <main class="dashboard-wrapper" style="margin-top: 20px">
+      <h2>Your Job Listings and Applications</h2>
 
-    <div class="applicant-scroll">
-      <div class="applicant-list">
+      <div th:if="${#maps.isEmpty(jobApplications)}" class="no-jobs">
+        <p>You haven't posted any jobs yet.</p>
+      </div>
 
-        <div class="applicant-card" th:each="applicant : ${applicants}">
-          <div class="applicant-header">
-            <strong th:text="${applicant.name}">Applicant Name</strong>
-            <small th:text="${applicant.role}">Role — Location</small>
-          </div>
-          <div class="applicant-body">
-            <span class="badge" th:classappend="' ' + ${applicant.status.toLowerCase()}"
-                  th:text="${applicant.status}">Status</span>
-            <p><strong>Skills:</strong> <span th:text="${applicant.skills}">Skill list</span></p>
-            <p><strong>Education:</strong> <span th:text="${applicant.education}">Degree</span></p>
-            <p><strong>Contact:</strong> <span th:text="${applicant.email}">Email</span></p>
-            <a th:href="@{'/company/applicant/' + ${applicant.id}}" class="view-link">View Profile</a>
-
-            <div class="action-buttons">
-              <button class="btn approve" th:onclick="'approveApplicant(' + ${applicant.id} + ')'">Approve</button>
-              <button class="btn reject" th:onclick="'rejectApplicant(' + ${applicant.id} + ')'">Reject</button>
-            </div>
+      <div th:each="job : ${jobApplications}" class="job-section">
+        <div class="job-header">
+          <h3 th:text="${job.key.title}">Job Title</h3>
+          <div class="job-details">
+            <span th:text="${job.key.location}">Location</span> |
+            <span th:text="${job.key.type}">Type</span>
           </div>
         </div>
 
+        <div class="applications">
+          <h4>Applications</h4>
+          <div th:if="${#lists.isEmpty(job.value)}" class="no-applications">
+            <p>No applications yet for this position.</p>
+          </div>
+
+          <div th:each="applicant : ${job.value}" class="applicant-card">
+            <div class="applicant-info">
+              <p class="name" th:text="${applicant.username}">Applicant Name</p>
+              <p class="status" th:text="${applicant.status}">Status</p>
+            </div>
+            <div class="actions">
+              <button
+                class="btn approve"
+                th:data-job-id="${job.key.id}"
+                th:data-username="${applicant.username}"
+              >
+                Approve
+              </button>
+              <button
+                class="btn reject"
+                th:data-job-id="${job.key.id}"
+                th:data-username="${applicant.username}"
+              >
+                Reject
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
-</main>
-</body>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const token = document.querySelector("meta[name='_csrf']").content;
+        const header = document.querySelector(
+          "meta[name='_csrf_header']"
+        ).content;
+
+        document
+          .querySelectorAll(".btn.approve, .btn.reject")
+          .forEach((button) => {
+            button.addEventListener("click", function () {
+              const jobId = this.dataset.jobId;
+              const username = this.dataset.username;
+              const status = this.classList.contains("approve")
+                ? "APPROVED"
+                : "REJECTED";
+
+              fetch(`/api/applications/${jobId}/status`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  [header]: token,
+                },
+                body: JSON.stringify({
+                  userId: username,
+                  status: status,
+                }),
+              })
+                .then((response) => {
+                  if (response.ok) {
+                    window.location.reload();
+                  }
+                })
+                .catch((error) => console.error("Error:", error));
+            });
+          });
+      });
+    </script>
+  </body>
 </html>

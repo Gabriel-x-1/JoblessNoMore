@@ -26,9 +26,9 @@ public class DataLoader implements CommandLineRunner {
   public void run(String... args) throws Exception {
 
     PasswordEncoder bcrypt = new BCryptPasswordEncoder();
-    User user1=new User("user1",bcrypt.encode("user1"),"user@gmail.com", "user");
+    User user1=new User("user1",bcrypt.encode("user1"),"user@gmail.com", "USER");
     user1.getRoles().add(Role.ROLE_USER);
-    User user2=new User("user2",bcrypt.encode("user2"), "company@gmail.com", "company");
+    User user2=new User("user2",bcrypt.encode("user2"), "company@gmail.com", "COMPANY");
     user2.getRoles().add(Role.ROLE_COMPANY);
     userService.save(user1);
     userService.save(user2);
@@ -43,7 +43,8 @@ public class DataLoader implements CommandLineRunner {
         "We are looking for an experienced Java developer to join our team.",
         List.of("Lead development of core applications", "Mentor junior developers"),
         List.of("5+ years Java experience", "Spring Boot knowledge"),
-        LocalDate.now().plusDays(30)
+        LocalDate.now().plusDays(30),
+        user2  // Link the job to the company user
     );
 
     Job job2 = new Job(
@@ -55,7 +56,8 @@ public class DataLoader implements CommandLineRunner {
         "Seeking a skilled frontend developer for our web applications.",
         List.of("Develop responsive UI", "Implement new features"),
         List.of("3+ years React experience", "TypeScript proficiency"),
-        LocalDate.now().plusDays(15)
+        LocalDate.now().plusDays(15),
+        user2  // Add the company user here too
     );
 
     jobService.saveJob(job1);
