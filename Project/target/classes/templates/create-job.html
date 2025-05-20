@@ -9,7 +9,10 @@
 <body>
 <main class="form-wrapper">
   <h2>Create New Job Listing</h2>
-  <form class="job-form" method="post" th:action="@{/jobs/create}" th:object="${job}">
+  <form class="job-form" method="post" th:action="@{/company/jobs/create}" th:object="${job}">
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
     <div class="form-section">
       <label>Job Title</label>
       <input type="text" th:field="*{title}" required />

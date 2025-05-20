@@ -1,26 +1,47 @@
 <nav
-  th:fragment="navbar"
-  class="navbar"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        th:fragment="navbar"
+        class="navbar"
+        xmlns:th="http://www.thymeleaf.org"
 >
   <div class="nav-logo">JobLessNoMore</div>
+
   <ul class="nav-links" id="navLinks">
-    <!-- Simplified role-based dashboard links -->
-    <th:block sec:authorize="isAuthenticated()">
-      <li>
-        <th:block sec:authorize="hasRole('COMPANY')">
-          <a th:href="@{/company/dashboard}">Company Dashboard</a>
-        </th:block>
-        <th:block sec:authorize="hasRole('USER')">
-          <a th:href="@{/seeker/dashboard}">Job Seeker Dashboard</a>
-        </th:block>
-      </li>
-      <li>
-        <form th:action="@{/auth/logout}" method="post" style="display: inline">
-          <button type="submit" class="logout-btn">Logout</button>
-        </form>
-      </li>
-    </th:block>
+    <!-- These are hidden by default, JS will reveal the one the user has access to -->
+    <li id="seeker-dashboard-link" style="display: none;">
+      <a href="/seeker/dashboard">Job Seeker Dashboard</a>
+    </li>
+    <li id="company-dashboard-link" style="display: none;">
+      <a href="/company/dashboard">Company Dashboard</a>
+    </li>
+
+    <li>
+      <form th:action="@{/auth/logout}" method="post" style="display: inline">
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+    </li>
   </ul>
+
   <div class="nav-toggle" id="navToggle">&#9776;</div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const checkAccess = async (url, elementId) => {
+        try {
+          const response = await fetch(url, {
+            method: "HEAD",
+            credentials: "include"
+          });
+
+          if (response.ok && !response.redirected) {
+            document.getElementById(elementId).style.display = "list-item";
+          }
+        } catch (error) {
+          console.warn(`Access check failed for ${url}:`, error);
+        }
+      };
+
+      checkAccess("/seeker/dashboard", "seeker-dashboard-link");
+      checkAccess("/company/dashboard", "company-dashboard-link");
+    });
+  </script>
 </nav>

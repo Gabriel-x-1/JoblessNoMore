@@ -12,9 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -80,4 +79,60 @@ public class CompanyController {
         model.addAttribute("jobApplications", jobApplications);
         return "company-dashboard";
     }
+
+    @GetMapping("/create-job")
+    public String createJobPage(Model model) {
+        model.addAttribute("job", new Job()); // empty Job object for form binding
+        return "create-job";
+    }
+
+
+    @PostMapping("/jobs/create")
+    public String createJobSubmit(
+            @RequestParam String title,
+            @RequestParam String location,
+            @RequestParam String type,
+            @RequestParam(required = false) String salary,
+            @RequestParam String description,
+            @RequestParam(required = false) String responsibilities,
+            @RequestParam(required = false) String requirements,
+            @RequestParam(required = false) String startDateStr,  // Get date as String
+            Authentication authentication
+    ) {
+        User company = userService.findByEmail(authentication.getName());
+
+        List<String> respList = responsibilities != null
+                ? Arrays.stream(responsibilities.split(",")).map(String::trim).collect(Collectors.toList())
+                : Collections.emptyList();
+
+        List<String> reqList = requirements != null
+                ? Arrays.stream(requirements.split(",")).map(String::trim).collect(Collectors.toList())
+                : Collections.emptyList();
+
+        LocalDate startDate = null;
+        if (startDateStr != null && !startDateStr.isEmpty()) {
+            startDate = LocalDate.parse(startDateStr);  // assumes yyyy-MM-dd format from input[type=date]
+        }
+
+        Job job = new Job(
+                title,
+                company.getUsername(),
+                location,
+                type,
+                salary,
+                description,
+                respList,
+                reqList,
+                startDate,
+                company
+        );
+
+        jobRepository.save(job);
+        return "redirect:/company/dashboard";
+    }
+
+
+
+
+
 }
